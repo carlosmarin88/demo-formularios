@@ -1,0 +1,200 @@
+<h4>Formularios <small> tipo Reactivo </small></h4>
+<hr>
+<form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
+
+  <div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col">
+
+        <input class="form-control"
+               type="text"
+               [class.is-invalid]="campoInvalido('nombre')"
+               [class.is-valid]="campoValido('nombre')"
+               formControlName="nombre"
+               placeholder="Nombre">
+        <small class="form-text text-danger"
+        *ngIf="campoInvalido('nombre')">
+          {{getMensajeError('nombre', 'nombre')}}
+        </small>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Apellido</label>
+      <div class="col">
+
+        <input class="form-control"
+               type="text"
+               [class.is-invalid]="campoInvalido('apellido')"
+               [class.is-valid]="campoValido('apellido')"
+               formControlName="apellido"
+               placeholder="Apellido">
+          
+          <small class="form-text text-danger"
+          *ngIf="campoInvalido('apellido')">
+            {{getMensajeError('apellido', 'apellido')}}
+          </small>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Correo</label>
+    <div class="col">
+
+      <input class="form-control"
+             type="email"
+             [class.is-invalid]="campoInvalido('correo')"
+             [class.is-valid]="campoValido('correo')"
+             formControlName="correo"
+             placeholder="Correo electrónico">
+      
+      <small class="form-text text-danger"
+      *ngIf="campoInvalido('correo')">
+        {{getMensajeError('correo','correo')}}
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Usuario</label>
+    <div class="col">
+
+      <input class="form-control"
+             type="email"
+             [class.is-invalid]="campoInvalido('usuario')"
+             [class.is-valid]="campoValido('usuario')"
+             formControlName="usuario"
+             placeholder="Nombre de usuario">
+      
+      <small class="form-text text-danger"
+      *ngIf="campoInvalido('usuario')">
+        {{getMensajeError('usuario')}}
+      </small>
+    </div>
+  </div>
+
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Contraseña</label>
+    <div class="col">
+
+      <input class="form-control"
+             type="password"
+             [class.is-invalid]="campoInvalido('pass1')"
+             [class.is-valid]="campoValido('pass1')"
+             formControlName="pass1"
+             placeholder="Contraseña">
+      
+      <small class="form-text text-danger"
+      *ngIf="campoInvalido('pass1')">
+        {{getMensajeError('pass1', 'Contraseña')}}
+      </small>
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Repetir contraseña</label>
+    <div class="col">
+
+      <input class="form-control"
+             type="password"
+             [class.is-invalid]="campoInvalido('pass2')"
+             [class.is-valid]="campoValido('pass2')"
+             formControlName="pass2"
+             placeholder="Repetir contraseña">
+      
+      <small class="form-text text-danger"
+      *ngIf="campoInvalido('pass2')">
+        {{getMensajeError('pass2', 'Repetir Contraseña')}}
+      </small>
+    </div>
+  </div>
+
+<!--el formGroupName le dice que lo de adentro va ser parte del direccion-->
+  <div class="form-group row" formGroupName="direccion">
+    <label class="col-2 col-form-label">Direccion</label>
+    <div class="form-row col">
+        <div class="col">
+          <input type="text" 
+          formControlName="distrito"
+          [class.is-invalid] = "campoInvalido('direccion.distrito')"
+          [class.is-valid] = "campoValido('direccion.distrito')"
+          class="form-control"
+           placeholder="Distrito">
+           <small *ngIf="campoInvalido('direccion.distrito')">
+              {{getMensajeError('direccion.distrito', 'distrito')}}
+           </small>
+        </div>
+        <div class="col">
+          <input type="text" 
+          formControlName="ciudad"
+          [class.is-invalid]="campoInvalido('direccion.ciudad')"
+          [class.is-valid]="campoValido('direccion.ciudad')"
+          class="form-control" 
+          placeholder="Ciudad">
+          <small *ngIf="campoInvalido('direccion.ciudad')">
+            {{getMensajeError('direccion.ciudad', 'ciudad')}}
+          </small>
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Pasatiempo</th>
+            <th>Borrar</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="pasatiempos">
+          <tr *ngFor="let control of pasatiempos.controls; let i = index">
+            <td>{{ i + 1}}</td>
+            <td>
+              <input class="form-control" type="text" 
+                      [formControlName]="i">
+            </td>
+            <td>
+              <button class="btn btn-danger"
+              (click)="borrarPasatiempo(i)">
+                Borrar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-primary mt-3 mb-5 btn-block" 
+      type="button" (click)="agregarPasatiempo()">
+        + Agregar
+      </button>
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md">
+      <button type="submit" class="btn btn-outline-primary btn-block">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+</form>
+<hr>
+<pre>
+  Estado de formulario: {{forma.valid}}
+  <br>
+  Status: {{forma.status}}
+</pre>
+<pre>
+  {{forma.value | json}}
+</pre>
